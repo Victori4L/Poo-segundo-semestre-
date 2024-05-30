@@ -23,15 +23,28 @@ public:
     }
 };
 
-class Dueno {
+// Clase base Persona
+class Persona {
 public:
     string nombre;
-    string telefono;
     string email;
+
+    Persona(string nombre, string email)
+        : nombre(nombre), email(email) {}
+
+    // Método virtual para mostrar información
+    virtual void mostrarInfo() const {
+        cout << "Nombre: " << nombre << ", Email: " << email << endl;
+    }
+};
+
+class Dueno : public Persona {
+public:
+    string telefono;
     vector<Hospedaje> hospedajes;
 
     Dueno(string nombre, string telefono, string email)
-        : nombre(nombre), telefono(telefono), email(email) {}
+        : Persona(nombre, email), telefono(telefono) {}
 
     void registrar(Hospedaje hospedaje) {
         hospedajes.push_back(hospedaje);
@@ -44,9 +57,10 @@ public:
         cout << "Información de " << nombre << " actualizada." << endl;
     }
 
-    void mostrarInfo() const {
+    // Sobrescribir el método mostrarInfo
+    void mostrarInfo() const override {
         cout << "Dueño: " << nombre << ", Teléfono: " << telefono << ", Email: " << email << endl;
-      
+
         for (const auto& hospedaje : hospedajes) {
             hospedaje.mostrarInfo();
         }
@@ -72,26 +86,26 @@ public:
     }
 };
 
-class Cliente {
+class Cliente : public Persona {
 public:
-    string nombre;
-    string email;
-    vector<Reservacion> reservaciones; 
+    vector<Reservacion> reservaciones;
 
     Cliente(string nombre, string email)
-        : nombre(nombre), email(email) {}
+        : Persona(nombre, email) {}
 
-    void mostrarInfo() const {
+    // Sobrecarga del operador para agregar reservaciones
+    void operator+=(const Reservacion& reservacion) {
+        reservaciones.push_back(reservacion);
+        cout << "Reservación registrada para el cliente " << nombre << endl;
+    }
+
+    // Sobrescribir el método mostrarInfo
+    void mostrarInfo() const override {
         cout << "Cliente: " << nombre << ", Email: " << email << endl;
-      
+
         for (const auto& reservacion : reservaciones) {
             reservacion.mostrarInfo();
         }
-    }
-
-    void registrar(Reservacion reservacion) {
-        reservaciones.push_back(reservacion);
-        cout << "Reservación registrada para el cliente " << nombre << endl;
     }
 };
 
@@ -105,7 +119,7 @@ public:
         : monto(monto), fechaPago(fechaPago), metodoPago(metodoPago) {}
 
     void realizarPago() {
-        cout << "Pago de $" << monto << " realizado el " << fechaPago << " usando " << metodoPago << endl;
+        // cout << "Pago de $" << monto << " realizado el " << fechaPago << " usando " << metodoPago << endl;
     }
 
     void mostrarInfo() const {
@@ -133,7 +147,7 @@ int main() {
 
     // Crear una reservación
     Reservacion reservacion1("2023-06-01", "2023-06-05", hospedaje1);
-    cliente1.registrar(reservacion1);
+    cliente1 += reservacion1;
 
     // Mostrar información del cliente y sus reservaciones
     cliente1.mostrarInfo();
