@@ -23,7 +23,7 @@ public:
     }
 };
 
-// Clase base Persona
+// Clase base abstracta Persona
 class Persona {
 public:
     string nombre;
@@ -32,9 +32,24 @@ public:
     Persona(string nombre, string email)
         : nombre(nombre), email(email) {}
 
-    // Método virtual para mostrar información
-    virtual void mostrarInfo() const {
-        cout << "Nombre: " << nombre << ", Email: " << email << endl;
+    // Método virtual puro para mostrar información
+    virtual void mostrarInfo() const = 0;
+
+    // Ejemplo de sobrecarga
+    void mostrarInfo(bool detallado) const {
+        if (detallado) {
+            cout << "Nombre: " << nombre << ", Email: " << email << endl;
+            cout << "Detalles adicionales..." << endl;
+        } else {
+            cout << "Nombre: " << nombre << ", Email: " << email << endl;
+        }
+    }
+
+    // Ejemplo de sobreescritura
+    virtual void actualizarInfo(string nuevoNombre, string nuevoEmail) {
+        nombre = nuevoNombre;
+        email = nuevoEmail;
+        cout << "Información de la persona actualizada." << endl;
     }
 };
 
@@ -49,12 +64,6 @@ public:
     void registrar(Hospedaje hospedaje) {
         hospedajes.push_back(hospedaje);
         cout << "Hospedaje en " << hospedaje.direccion << " registrado bajo el dueño " << nombre << endl;
-    }
-
-    void actualizarInfo(string nuevoTelefono, string nuevoEmail) {
-        telefono = nuevoTelefono;
-        email = nuevoEmail;
-        cout << "Información de " << nombre << " actualizada." << endl;
     }
 
     // Sobrescribir el método mostrarInfo
@@ -107,6 +116,13 @@ public:
             reservacion.mostrarInfo();
         }
     }
+
+    // Sobreescritura del método actualizarInfo
+    void actualizarInfo(string nuevoNombre, string nuevoEmail) override {
+        nombre = nuevoNombre;
+        email = nuevoEmail;
+        cout << "Información del cliente actualizada." << endl;
+    }
 };
 
 class Pago {
@@ -139,7 +155,7 @@ int main() {
     dueno1.registrar(hospedaje1);
     dueno1.registrar(hospedaje2);
 
-    // Mostrar información del dueño y sus hospedajes
+    // Mostrar información detallada del dueño y sus hospedajes
     dueno1.mostrarInfo();
 
     // Crear un cliente
@@ -149,8 +165,9 @@ int main() {
     Reservacion reservacion1("2023-06-01", "2023-06-05", hospedaje1);
     cliente1 += reservacion1;
 
-    // Mostrar información del cliente y sus reservaciones
+    // Mostrar información detallada del cliente y sus reservaciones
     cliente1.mostrarInfo();
+
 
     // Crear un pago
     Pago pago1(500.0, "2023-05-01", "Tarjeta de Crédito");
