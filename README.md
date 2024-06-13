@@ -10,7 +10,6 @@ El cual contendra 6 clases:
 -Reservacion 
 -Hospedaje 
 -Dueño Arbnb 
--Pago
 -Persona 
 
 El usuario hace una reservacion para un alojamiento,permite que el cliente seleccione uno de los hospedajes disponibles y este especifica la duracion de su estancia, selecciona su metodo de pago y al final obtiene un resumen con el costo total a pagar,los datos de el lugar en el que se hospedará y datos sobre el dueño del lugar como lo es nombre y correo 
