@@ -5,7 +5,7 @@ Descripción
 Este programa simula un sistema de gestión de hospedajes en el que dueños pueden registrar sus alojamientos,
 y clientes pueden hacer reservaciones y pagos para hospedarse
 
-El cual contendra 6 clases:
+El cual contendra 5 clases:
 -Cliente
 -Reservacion 
 -Hospedaje 
