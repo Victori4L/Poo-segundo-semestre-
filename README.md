@@ -20,6 +20,22 @@ Casos que harian que el proyecto dejara de funcionar:
 --El programa utiliza vectores, por lo mismo, se ocuparía una versión de C++ que contenga dicha biblioteca. En caso de no tenerla podría ocasionar que el programa no compile.
 --El manejo de cadenas mediante getline(cin, ...) y la operación cin >> opcion para la selección de hospedaje podrían no capturar correctamente los caracteres de nueva línea o espacios en blanco, lo que puede llevar a errores si no se manejan adecuadamente.
 
+Correciones realizadas:
+--
+-->Identifico los casos que harían que el proyecto deje de funcionar
+Para este apartado habia olvidado añadirlo, pero ahora se encuentra en el README 
+-->Genero un diagrama de clases UML correcto y y explico su relación con el problema de forma clara
+Al momento de subir el UML fue de una manera incorrecta y no como imagen o pdf, ahora se volvio a subir en imagen 
+-->Se implementa de manera correcta el concepto de Herencia
+En las otras versiones no tenia aun la herencia implementada 
+--> Se implementa de manera correcta la sobrecarga y sobreescritura de métodos
+En las otras versiones no tenia aun la sobrecarga y la sobreescritura 
+-->Se implementa de manera correcta el concepto de Clases Abstractas
+Esto aun no se revisa en la tabla 
+-->Usa herramientas de control de versiones
+en el main y en el diagrama, en las clases .h solo hay una version que es la actual pues en las otras entregas solo puse un main.cpp y no habia dividido en .h 
+-->Incluye documentación útil en el repositorio del pryecto
+Se hicieron comentarios del codigo y explicaciones de como funciona 
 
 Consideraciones
 --
