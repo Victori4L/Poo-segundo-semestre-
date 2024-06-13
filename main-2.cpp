@@ -1,180 +1,74 @@
-#include <iostream>
-#include <vector>
-#include <string>
-
-using namespace std;
-
-class Hospedaje {
-public:
-    string direccion;
-    string descripcion;
-    double precioNoche;
-
-    Hospedaje(string direccion, string descripcion, double precioNoche)
-        : direccion(direccion), descripcion(descripcion), precioNoche(precioNoche) {}
-
-    void mostrarInfo() const {
-        cout << "Direccion: " << direccion << ", Descripcion: " << descripcion 
-             << ", Precio por noche: $" << precioNoche << endl;
-    }
-
-    void agregarComentario(const string& comentario) {
-        cout << "Comentario agregado al hospedaje en " << direccion << ": " << comentario << endl;
-    }
-};
-
-// Clase base abstracta Persona
-class Persona {
-public:
-    string nombre;
-    string email;
-
-    Persona(string nombre, string email)
-        : nombre(nombre), email(email) {}
-
-    // Método virtual puro para mostrar información
-    virtual void mostrarInfo() const = 0;
-
-    // Ejemplo de sobrecarga
-    void mostrarInfo(bool detallado) const {
-        if (detallado) {
-            cout << "Nombre: " << nombre << ", Email: " << email << endl;
-            cout << "Detalles adicionales..." << endl;
-        } else {
-            cout << "Nombre: " << nombre << ", Email: " << email << endl;
-        }
-    }
-
-    // Ejemplo de sobreescritura
-    virtual void actualizarInfo(string nuevoNombre, string nuevoEmail) {
-        nombre = nuevoNombre;
-        email = nuevoEmail;
-        cout << "Información de la persona actualizada." << endl;
-    }
-};
-
-class Dueno : public Persona {
-public:
-    string telefono;
-    vector<Hospedaje> hospedajes;
-
-    Dueno(string nombre, string telefono, string email)
-        : Persona(nombre, email), telefono(telefono) {}
-
-    void registrar(Hospedaje hospedaje) {
-        hospedajes.push_back(hospedaje);
-        cout << "Hospedaje en " << hospedaje.direccion << " registrado bajo el dueño " << nombre << endl;
-    }
-
-    // Sobrescribir el método mostrarInfo
-    void mostrarInfo() const override {
-        cout << "Dueño: " << nombre << ", Teléfono: " << telefono << ", Email: " << email << endl;
-
-        for (const auto& hospedaje : hospedajes) {
-            hospedaje.mostrarInfo();
-        }
-    }
-};
-
-class Reservacion {
-public:
-    string fechaInicio;
-    string fechaFin;
-    Hospedaje hospedaje;
-
-    Reservacion(string fechaInicio, string fechaFin, Hospedaje hospedaje)
-        : fechaInicio(fechaInicio), fechaFin(fechaFin), hospedaje(hospedaje) {}
-
-    void mostrarInfo() const { 
-        cout << "Reservación desde " << fechaInicio << " hasta " << fechaFin << " en:\n";
-        hospedaje.mostrarInfo();
-    }
-
-    void cancelar() {
-        cout << "Reservación desde " << fechaInicio << " hasta " << fechaFin << " cancelada." << endl;
-    }
-};
-
-class Cliente : public Persona {
-public:
-    vector<Reservacion> reservaciones;
-
-    Cliente(string nombre, string email)
-        : Persona(nombre, email) {}
-
-    // Sobrecarga del operador para agregar reservaciones
-    void operator+=(const Reservacion& reservacion) {
-        reservaciones.push_back(reservacion);
-        cout << "Reservación registrada para el cliente " << nombre << endl;
-    }
-
-    // Sobrescribir el método mostrarInfo
-    void mostrarInfo() const override {
-        cout << "Cliente: " << nombre << ", Email: " << email << endl;
-
-        for (const auto& reservacion : reservaciones) {
-            reservacion.mostrarInfo();
-        }
-    }
-
-    // Sobreescritura del método actualizarInfo
-    void actualizarInfo(string nuevoNombre, string nuevoEmail) override {
-        nombre = nuevoNombre;
-        email = nuevoEmail;
-        cout << "Información del cliente actualizada." << endl;
-    }
-};
-
-class Pago {
-public:
-    double monto;
-    string fechaPago;
-    string metodoPago;
-
-    Pago(double monto, string fechaPago, string metodoPago)
-        : monto(monto), fechaPago(fechaPago), metodoPago(metodoPago) {}
-
-    void realizarPago() {
-        // cout << "Pago de $" << monto << " realizado el " << fechaPago << " usando " << metodoPago << endl;
-    }
-
-    void mostrarInfo() const {
-        cout << "Pago de $" << monto << " realizado el " << fechaPago << " usando " << metodoPago << endl;
-    }
-};
+#include "persona.h"
 
 int main() {
-    // Crear un dueño
-    Dueno dueno1("John Doe", "123-456-7890", "johndoe@example.com");
+    // Crear dueños
+    Dueno dueno1("Pablo Jaimes", "123-456-7890", "Pjt_17@gmail.com");
+    Dueno dueno2("Ana Aguilar", "987-654-3210", "Ana27_AT@gmail.com");
 
     // Crear hospedajes
-    Hospedaje hospedaje1("123 Main St", "Hermoso apartamento en el centro", 100.0);
-    Hospedaje hospedaje2("456 Elm St", "Cómoda casa con jardín", 150.0);
+    Hospedaje hospedaje1("Calle Hidalgo #13, QRO", "Hermoso apartamento en el centro con 4 habitaciones y 3 baños", 600.0);
+    Hospedaje hospedaje2("Privada Palmas #2", "Cómoda casa con jardín,piscina, con 5 habitaciones", 900.0);
 
-    // Registrar hospedajes con el dueño
+    // Registrar hospedaje1 con dueno1 y hospedaje2 con dueno2
     dueno1.registrar(hospedaje1);
-    dueno1.registrar(hospedaje2);
+    dueno2.registrar(hospedaje2);
 
-    // Mostrar información detallada del dueño y sus hospedajes
+    // Mostrar información detallada de los dueños y sus hospedajes
+    cout << "\nInformación del dueño 1:\n";
     dueno1.mostrarInfo();
+    cout << "\nInformación del dueño 2:\n";
+    dueno2.mostrarInfo();
 
-    // Crear un cliente
-    Cliente cliente1("Jane Smith", "janesmith@example.com");
+    // Solicitar los datos del cliente
+    string nombreCliente;
+    string emailCliente;
+    cout << "\n-Ingrese su nombre:\n";
+    cin.ignore();  // Ignorar cualquier nueva línea pendiente
+    getline(cin, nombreCliente); // Leer el nombre del cliente
+    cout << "-Ingrese su email: ";
+    getline(cin, emailCliente); // Leer el email del cliente
 
-    // Crear una reservación
-    Reservacion reservacion1("2023-06-01", "2023-06-05", hospedaje1);
+    // Crear un cliente con los datos ingresados
+    Cliente cliente1(nombreCliente, emailCliente);
+
+    // Permitir al usuario seleccionar un hospedaje
+    int opcion;
+    cout << "\n-Seleccione un hospedaje (1 o 2): \n";
+    cin >> opcion;
+
+    Hospedaje hospedajeElegido = (opcion == 1) ? hospedaje1 : hospedaje2;
+
+    // Solicitar la duración de la estadía
+    int duracionEstadia;
+    cout << "-Ingrese la duración de la estadía en días: ";
+    cin >> duracionEstadia;
+
+    // Permitir al usuario seleccionar el método de pago
+    string metodoPago;
+    cout << "-Seleccione el método de pago (efectivo o tarjeta): ";
+    cin >> metodoPago;
+
+    // Calcular el monto total de la reservación
+    double montoTotal = duracionEstadia * hospedajeElegido.precioNoche;
+
+    // Crear una reservación con el hospedaje seleccionado, la duración ingresada y el método de pago
+    Reservacion reservacion1("2024-06-01", "2024-06-09", hospedajeElegido, montoTotal, "2024-06-12", metodoPago);
     cliente1 += reservacion1;
 
-    // Mostrar información detallada del cliente y sus reservaciones
-    cliente1.mostrarInfo();
+    // Mostrar información de la reservación
+    cout << "\n-Resumen de la reservación:\n";
+    reservacion1.mostrarInfo();
+    cout << "\n-Duración de la estadía: " << duracionEstadia << " días\n";
+    cout << "-Método de pago: " << metodoPago << endl; // Mostrar el método de pago seleccionado
+    cout << "-Monto total a pagar: $" << montoTotal << endl;
 
-
-    // Crear un pago
-    Pago pago1(500.0, "2023-05-01", "Tarjeta de Crédito");
-
-    // Realizar y mostrar información del pago
-    pago1.realizarPago();
-    pago1.mostrarInfo();
+    // Mostrar información del dueño del hospedaje elegido
+    cout << "\nInformación del dueño del hospedaje:\n";
+    if (opcion == 1) {
+        dueno1.mostrarInfo();
+    } else {
+        dueno2.mostrarInfo();
+    }
 
     return 0;
 }
