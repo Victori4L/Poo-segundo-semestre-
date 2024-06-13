@@ -25,7 +25,7 @@ Consideraciones
 --
 El programa solo corre en la consola y esta hecho con c++ standard por lo que corre en todos los sistemas operativos
 
-compilar con: "g++ empleado.h empresa.h main.cpp"
+compilar con: "g++ hospedaje.h persona.h reservacion.h main-2.cpp"
 
 correr en linux: "/a.out"
 
